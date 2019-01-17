@@ -10,7 +10,7 @@ class Title extends React.Component {
 		return (
 			<div className = "TitleMainContainer">
 				<div className = "TitleMainTextContainer">
-				 	Mixogism
+				 	MIXORCISM
 				</div>
 			</div>
 

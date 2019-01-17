@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Cabin+Condensed|Lato|Oswald');
+
 $font: Helvetica, sans-serif;
 $primary-color: #EEE;
 $Title-color: #AAA;
 $testing-border: 1px solid #FFF;
-
+$title-font: 'Oswald', sans-serif;
 
 @keyframes fadeInLogin {
     0% {
@@ -55,13 +57,15 @@ body {
 	justify-content: center;
 	padding:50px;
 	border: $testing-border;
+	background-color: #000;
 }
 
 .TitleMainTextContainer{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	font-size: 50px;
+	font-size:150px;
+	font-family: $title-font;
 	color: $Title-color;
 }
 
