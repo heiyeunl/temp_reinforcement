@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 class Title extends React.Component {
@@ -51,7 +52,7 @@ class DrinksCard extends React.Component {
 								<div>Ingredients</div>
 								<div>Apple</div>
 								<div>Bananna</div>
-								<div className="button" onClick={() => console.log('hi')}>Find out more</div>
+								<div className="button" onClick={this.props.handleShowModal}>Find out more</div>
 						 </div>
 					 </div>
 				 </div>
@@ -64,28 +65,99 @@ class DrinksCard extends React.Component {
 
 
 
+const modalRoot = document.getElementById('modalRoot');
+
+class Modal extends React.Component {
+    constructor(props) {
+      super(props);
+      // Create a div that we'll render the modal into. Because each
+      // Modal component has its own element, we can render multiple
+      // modal components into the modal container.
+      this.el = document.createElement('div');
+    }
+  
+    componentDidMount() {
+      // Append the element into the DOM on mount. We'll render
+      // into the modal container element (see the HTML tab).
+      modalRoot.appendChild(this.el);
+    }
+  
+    componentWillUnmount() {
+      // Remove the element from the DOM when we unmount
+      modalRoot.removeChild(this.el);
+    }
+    
+    render() {
+      // Use a portal to render the children into the element
+      return ReactDOM.createPortal(
+        // Any valid React child: JSX, strings, arrays, etc.
+        this.props.children,
+        // A DOM element
+        this.el,
+      );
+    }
+	}
+	
+
+
+
+
+
+
+
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
+			showModal: false,
 			inputbox_text:"",
 			userSelectedIngredients_arrString: [],
 			ingredient_arrString: ["sweet vermouth", "orange juice", "simple syrup", "lime juice", "lemon juice", "london dry gin", "vodka", "rum", "dry vermouth", "bourbon whiskey", "rye whiskey", "irish whiskey", "scotch whisky", "japanese whiskey", "whiskey", "whisky", "gin", "campari", "brandy", "cognac", "tequila", "sherry", "7-up", "tonic water", "soda water", "ginger beer", "pisco", "coke", "sake", "ginger ale", "irish cream", "chartreuse", "milk", "eggs", "cranberry jiuce", "triple sec", "beer", "mezcal", "champagne", "white wine", "red wine", "port wine", "sprite", "prosecco", "campari", "bitters", "lime wedge", "ice cube", "olive"],
 			recipes_arrObject:[],
+			modalImgInfo: {},
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.addIngredient = this.addIngredient.bind(this)
+		this.ExitModal = this.ExitModal.bind(this);
 	}
 	
 	componentDidMount() {
-		fetch('http://cocktail-gurus.com:3000/recipes')
-			.then(data => data.JSON())
-			.then(data => console.log(data))
-	}
+    fetch('http://cocktail-gurus.com:3000/recipes', { mode: 'cors', headers: { 'Access-Control-Allow-Origin': '*' } })
+      .then(data => data.json())
+      .then((data) => {
+        const recipies = data.map(drink => drink);
+        const newState = {...this.state};
+        newState.recipes_arrObject = recipies;
+        this.setState(newState);
+      });
+  }
 
 	handleInputChange(event) {
 		this.setState({inputbox_text: event.target.value})
 	}
+
+	ExitModal(){
+		this.setState({
+				showModal: false,
+		});
+	}
+
+	handleShowModal() {
+		console.log('hi')
+
+		this.setState({
+				showModal: true,
+
+		});
+	}
+	// handleShowModal(event) {
+	// 	let key = event.target.id;
+	// 	console.log(this.state.recipes_arrObject[key])
+	// 	this.setState({
+	// 			showModal: true,
+	// 			modalImgInfo: this.state.recipes_arrObject[key],
+	// 	});
+	// }
 
 	addIngredient() {
 		let temp = [...this.state.userSelectedIngredients_arrString];
@@ -100,6 +172,21 @@ class App extends React.Component {
 	}
 
   render() {
+		const modal = this.state.showModal ? (
+			<Modal>
+				<div className="modalbackground" onClick={()=> this.ExitModal()}>
+					<div className="modal-container">
+					<div className="model-content-container">
+					<div>Step1: Negroni Oh Ya baby</div>
+					<div>Step2: Negroni Oh Ya baby</div>
+					<div>Step3: Negroni Oh Ya baby</div>
+					</div>
+				</div>
+				</div>
+			</Modal>
+		) : null;
+
+
     return (
 	  <div>
 	  	<Title />
@@ -110,17 +197,13 @@ class App extends React.Component {
 				/>
 				<div className = "drinksMainContainer">
 				<div className = "drinksIconPicturesFlexContainer">
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
-					<DrinksCard />
+					{!this.state.showModal && <DrinksCard handleShowModal={()=>this.handleShowModal()}/>}
+					{!this.state.showModal && <DrinksCard handleShowModal={()=>this.handleShowModal()}/>}
+
+
 				</div>
 				</div>
+				{modal}
 	  </div>
     )
   }
