@@ -2,8 +2,8 @@
 
 $font: Helvetica, sans-serif;
 $primary-color: #EEE;
-$Title-color: #AAA;
-$testing-border: 1px solid #FFF;
+$Title-color: rgba(0, 0, 0, 0.753);
+$testing-border: 1px solid #EEE;
 $title-font: 'Oswald', sans-serif;
 
 @keyframes fadeInLogin {
@@ -43,11 +43,11 @@ $title-font: 'Oswald', sans-serif;
 }
 
 
-
 body {
 	margin:0;
-	background: darken($primary-color, 5%);
+	background: darken($primary-color, 1%);
 	height:100vh;
+	font-family: "Oswald";
 }
 
 
@@ -104,6 +104,7 @@ body {
 	height:380px;
 	border:$testing-border;
 	perspective:1000;
+	animation: 1s ease-out 0s fadeInOpac;
 }
 
 .drinksMainContainer{
@@ -125,12 +126,13 @@ img {
 
 	border-radius: 50%;
 	width:330px;
+	box-shadow: 0 5px 15px darken($primary-color, 15%);
   }
 
 .backCard {
 
 	position: absolute;
-	background-color: #FFF;
+	background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
 	border-radius: 50%;
 	width:325px;
 	height:325px;
@@ -154,6 +156,25 @@ img {
 	align-items: center;
 }
 
+.horizontalContainerModal{
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+	height:100%;
+	widows: 100%;
+}
+
+.verticalContainerModal{
+	display:flex;
+	flex-direction: column;
+	justify-content:center;
+	align-items: center;
+	height:100%;
+	widows: 100%;
+}
+
+
+
 .flip-cards {
 	-webkit-transition: all 1s ease;
     transition: all 1s ease;
@@ -170,7 +191,8 @@ img {
 }
 
 .button {
-	background-color:rgb(184, 183, 183)
+	background-color:rgb(184, 183, 183);
+	cursor:pointer;
 }
 
 
@@ -181,7 +203,7 @@ img {
     animation: 1s ease-out 0s fadeInOpac;
 	display:flex;
 	flex-direction: row;
-	background-color: rgb(240, 232, 232);
+	background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
 }
 
 .model-content-container {
@@ -189,6 +211,7 @@ img {
 	flex-direction: column;
 	font-size:16px;
 	animation: 2.5s ease-out 0s fadeInOpac;
+	width:100%;
 }
 
 #modal-root {
@@ -197,7 +220,7 @@ img {
 }
 
 .modalbackground {
-    background-color: rgba(0, 0, 0, 0.753);
+    background-color: $Title-color;
     position: fixed;
     height: 100%;
     width: 100%;
@@ -206,4 +229,116 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .bodydiv {
+	height: 200px;
+	width: 100%;
+    background: #1d1d1d;
+    padding: 50px 0;
+  overflow: hidden;
+  color: #FFF;
+  * {box-sizing:border-box;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;}
+  
+  .text-wrap{
+
+    margin: 0;
+    position: relative;
+    width: 100%;
+  
+    svg {
+      position: absolute;
+      width: 100%;
+      height: auto;
+	  font: 74px sans-serif;
+	  font-family: 'Oswald';
+      text-transform: uppercase;
+      
+      .img-layer {
+        fill: url(#p-img);
+      }
+      
+      .gradient-layer {
+        fill: url(#gr-overlay);
+      }
+    }
+  }
+}
+
+.drinkNameTextContainer {
+	font-family: "Oswald";
+	font-size: 22px;
+	text-align: center;
+}
+
+.modalDrinkTitle {
+	font-family: "Oswald";
+	font-size: 40px;
+	margin-bottom:40px;
+}
+
+img::before {
+	background-color: rgb(240, 14, 46);
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	mix-blend-mode: darken;
+	position: absolute;
+	top: 0;
+	left: 0;
+  }
+  
+  img::after {
+	background-color: rgb(25, 37, 80);
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	mix-blend-mode: lighten;
+	position: absolute;
+	top: 0;
+	left: 0;
+  }
+
+  .autosuggestContainer{
+	  display:flex;
+	  flex-direction:row;
+  }
+
+  .suggestItemDiv{
+	  border-radius:25px;
+	  padding: 5px 7px;
+	  margin:7px;
+	  border: 1px solid rgb(25, 37, 80);
+	  font-size: 16px;
+  }
+  .autosuggestFixedHeight{
+	  height:50px;
+  }
+
+  input {
+	  height: 20px;
+  }
+  input:focus {
+	  outline:none;
+  }
+
+  .horizontalContainerSearch{
+	  display:flex;
+	  flex-direction: row;
+  }
+
+  .clearIngredient{
+	width:100px;
+	padding:20px;
+	font-size:15px;
+  }
+
+  .horizontalContainerSearchAdded{
+	width:100px;
+	height:15px;
+	font-family:"Cabin Condensed";
+	padding:7px;
+	font-size:17px;
   }
